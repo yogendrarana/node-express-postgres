@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import passport from "passport";
-import * as authControllers from "../controllers/auth.controllers.js";
+import * as authControllers from "../controllers/auth.controller.js";
 import rateLimit from "express-rate-limit";
 
 const loginRateLimiter = rateLimit({

@@ -2,11 +2,11 @@ import path from "path";
 import express from "express";
 import routers from "./routers.js";
 import cookieParser from "cookie-parser";
-import { __dirname } from "./util/path.js";
+import { __dirname } from "./utils/path.js";
 
 // middlewares
-import ErrorMiddleware from "./middlewares/error.middlewares.js";
-import MorganMiddleware from "./middlewares/morgan.middlewares.js";
+import ErrorMiddleware from "./middlewares/error.middleware.js";
+import MorganMiddleware from "./middlewares/morgan.middleware.js";
 
 export const createExpressApp = () => {
     const app = express();
