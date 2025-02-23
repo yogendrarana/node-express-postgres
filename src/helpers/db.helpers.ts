@@ -1,28 +1,17 @@
-import { APP_ENV } from "../constants/env.js";
+import { APP_ENV } from "../constants/app-env.js";
 
-// get database url
 export function getDbUrl() {
-    switch (process.env.NODE_ENV) {
-        case APP_ENV.PROD:
-            return (
-                process.env.DB_URL ||
-                "postgresql://postgres:password@localhost:5432/node_api_prod_db"
-            );
-
-        case APP_ENV.TEST:
-            return (
-                process.env.TEST_DB_URL ||
-                "postgresql://postgres:password@localhost:5432/node_api_test_db"
-            );
-
-        default:
-            return (
-                process.env.DB_URL ||
-                "postgresql://postgres:password@localhost:5432/node_api_dev_db"
-            );
+    if (process.env.NODE_ENV === APP_ENV.TEST) {
+        return (
+            process.env.TEST_DB_URL ||
+            "postgresql://postgres:password@localhost:5432/node_api_test_db"
+        );
     }
+    return (
+        process.env.DB_URL || 
+        "postgresql://postgres:password@localhost:5432/node_api_dev_db"
+    );
 }
-
 // validate test database
 export const validateTestDatabase = (dbUrl: string) => {
     try {

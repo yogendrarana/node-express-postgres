@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
-import { db } from "../db/db.js";
-import { type InsertableUser, type SelectableUser, userSchema } from "../db/schema/user.schema.js";
+import { db } from "../config/db/db.js";
+import { type InsertableUser, type SelectableUser, userSchema } from "../config/db/schema/user.schema.js";
 
 // get user by email
 export const getUserByEmail = async (email: string): Promise<SelectableUser | undefined> => {

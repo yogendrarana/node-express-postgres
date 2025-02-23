@@ -1,12 +1,14 @@
 import path from "path";
-import express from "express";
 import routers from "./routers.js";
 import cookieParser from "cookie-parser";
-import { __dirname } from "./utils/path.js";
+import express, { type Request, type Response } from "express";
 
 // middlewares
 import ErrorMiddleware from "./middlewares/error.middleware.js";
 import MorganMiddleware from "./middlewares/morgan.middleware.js";
+import { getDirname } from "./utils/path.js";
+
+const __dirname = getDirname(import.meta.url);
 
 export const createExpressApp = () => {
     const app = express();
@@ -22,8 +24,14 @@ export const createExpressApp = () => {
     app.use(MorganMiddleware);
     app.use(express.urlencoded({ extended: true }));
 
+    // use ejs
+    app.set("view engine", "ejs");
+    app.set("views", path.join(__dirname, "views"));
+
     // routes
-    app.get("/", (_, res) => res.send("Welcome to Node JS!"));
+    app.get("/", (req: Request, res: Response) => {
+        res.render("home", { title: "Node Backend" });
+    });
     app.use("/api/v1", Object.values(routers));
 
     // error middleware

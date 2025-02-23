@@ -1,11 +1,11 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { eq } from "drizzle-orm";
-import { db } from "../db/db.js";
+import { db } from "../config/db/db.js";
 import ErrorHandler from "../helpers/error.helpers.js";
 import { TOKEN_TYPE } from "../constants/enum/index.js";
-import { userSchema } from "../db/schema/user.schema.js";
-import { tokenSchema } from "../db/schema/token.schema.js";
+import { userSchema } from "../config/db/schema/user.schema.js";
+import { tokenSchema } from "../config/db/schema/token.schema.js";
 import { asyncHandler } from "../helpers/async.helpers.js";
 import type { NextFunction, Request, Response } from "express";
 import { loginUserSchema, registerUserSchema } from "../schemas/user.js";

@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import { db } from "../db/db.js";
-import { tokenSchema, type InsertableToken } from "../db/schema.js";
+import { db } from "../config/db/db.js";
+import { tokenSchema, type InsertableToken } from "../config/db/schema.js";
 import { eq } from "drizzle-orm";
 
 // create access token
