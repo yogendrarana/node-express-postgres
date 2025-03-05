@@ -2,12 +2,12 @@ import pg from "pg";
 import dotenv from "dotenv";
 import path from "node:path";
 import { afterAll, beforeAll } from "vitest";
-import * as schema from "../src/config/db/schema.js";
 import { getTableName, sql } from "drizzle-orm";
+import { env } from "../src/config/env.config.js";
 import { drizzle } from "drizzle-orm/node-postgres";
+import * as schema from "../src/config/db/schema.js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { validateTestDatabase } from "../src/helpers/db.helpers.js";
-import { env } from "../src/config/env.config.js";
 
 // load env variables
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });

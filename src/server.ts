@@ -1,15 +1,12 @@
+import app from "./app.js";
 import http from "node:http";
 import wsServer from "./config/socket.js";
-import { createExpressApp } from "./app.js";
 import { env } from "./config/env.config.js";
 import logger from "./config/logger/logger.js";
 import { startCronJobs } from "./cron/cronjob.js";
 
 // config
 startCronJobs();
-
-// create express app
-const app = createExpressApp();
 
 // create server
 const PORT = env.PORT;
