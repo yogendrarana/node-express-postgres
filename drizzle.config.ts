@@ -5,8 +5,8 @@ const connectionString = env.DATABASE_URL;
 
 export default defineConfig({
     dialect: "postgresql",
-    schema: "./dist/src/db/schema/*",
-    out: "./drizzle",
+    schema: "./drizzle/schema/*",
+    out: "./drizzle/migrations",
     dbCredentials: {
         url: connectionString
     },

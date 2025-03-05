@@ -1,7 +1,6 @@
 import path from "path";
-import routers from "./routers.js";
+import router from "./router.js";
 import cookieParser from "cookie-parser";
-import wsServer from "./config/socket.js";
 import express, { type Request, type Response } from "express";
 
 // middlewares
@@ -30,24 +29,12 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 // routes
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (_req: Request, res: Response) => {
     res.render("home", { title: "Node Backend" });
 });
-app.use("/api/v1", Object.values(routers));
-app.get('/api/ws/stats', (req, res) => {
-    res.json({
-        connections: wsServer.getClients(),
-        status: 'healthy'
-    });
-});
 
-app.post('/api/ws/broadcast', (req, res) => {
-    wsServer.broadcast({
-        type: 'announcement',
-        message: req.body.message
-    });
-    res.json({ success: true });
-});
+// api routes
+app.use(router);
 
 // error middleware
 app.use(ErrorMiddleware);

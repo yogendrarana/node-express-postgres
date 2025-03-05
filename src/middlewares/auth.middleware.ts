@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import passport from "passport";
 import { eq } from "drizzle-orm";
-import { db } from "../config/db/db.js";
+import { db } from "../../drizzle/index.js";
 import ErrorHandler from "../helpers/error.helpers.js";
-import { userSchema } from "../config/db/schema/user.schema.js";
+import { userSchema } from "../../drizzle/schema/user.schema.js";
 import type { NextFunction, Request, Response } from "express";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { getUserByEmail, getUserById, insertUser } from "../helpers/user.helpers.js";

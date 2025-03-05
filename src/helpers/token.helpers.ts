@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import { db } from "../config/db/db.js";
-import { tokenSchema, type InsertableToken } from "../config/db/schema.js";
 import { eq } from "drizzle-orm";
+import { db } from "../../drizzle/index.js"
 import { env } from "../config/env.config.js";
+import { tokenSchema, type InsertableToken } from "../../drizzle/schema.js";
 
 // create access token
 export const createAccessToken = function (userId: string, userRole: string) {

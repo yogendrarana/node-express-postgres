@@ -1,8 +1,8 @@
 import express from "express";
 const router = express.Router();
 import passport from "passport";
-import * as authControllers from "../../controllers/auth.controller.js";
 import rateLimit from "express-rate-limit";
+import * as authControllers from "../controllers/auth.controller.js";
 
 const loginRateLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -25,10 +25,10 @@ const loginRateLimiter = rateLimit({
 });
 
 // define routes
-router.route("/auth/login").post(loginRateLimiter, authControllers.loginUser);
-router.route("/auth/logout").get(authControllers.logoutUser);
-router.route("/auth/register").post(authControllers.registerUser);
-router.route("/auth/refresh").get(authControllers.refreshAccessToken);
+router.route("/login").post(loginRateLimiter, authControllers.loginUser);
+router.route("/logout").get(authControllers.logoutUser);
+router.route("/register").post(authControllers.registerUser);
+router.route("/refresh").get(authControllers.refreshAccessToken);
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 router.get(
     "/google/callback",
