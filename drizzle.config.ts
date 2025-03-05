@@ -1,7 +1,7 @@
 import { defineConfig } from "drizzle-kit";
+import { env } from "./src/config/env.config";
 
-const connectionString =
-    process.env.DB_URL || "postgresql://postgres:password@localhost:5432/node_api_dev_db";
+const connectionString = env.DATABASE_URL;
 
 export default defineConfig({
     dialect: "postgresql",

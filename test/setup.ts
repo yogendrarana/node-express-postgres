@@ -2,19 +2,18 @@ import pg from "pg";
 import dotenv from "dotenv";
 import path from "node:path";
 import { afterAll, beforeAll } from "vitest";
-import * as schema from "../src/db/schema.js";
+import * as schema from "../src/config/db/schema.js";
 import { getTableName, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { validateTestDatabase } from "../src/helpers/db.helpers.js";
-
+import { env } from "../src/config/env.config.js";
 
 // load env variables
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
 // Get and validate database URL
-const testDbUrl =
-    process.env.TEST_DB_URL || "postgresql://postgres:password@localhost:5432/node_api_test_db";
+const testDbUrl = env.TEST_DB_URL;
 validateTestDatabase(testDbUrl);
 
 // create database connection
@@ -22,6 +21,9 @@ export const testDbPool = new pg.Pool({ connectionString: testDbUrl });
 export const testDb = drizzle(testDbPool, { schema });
 
 beforeAll(async () => {
+    if (env.NODE_ENV !== 'test') {
+        throw new Error('Tests must be run in test environment');
+    }
     try {
         // Log the environment we're running in
         console.log(
@@ -39,8 +41,10 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-    await testDbPool.end();
-    console.log("✓ Database connection closed");
+    if (env.NODE_ENV === 'test') {
+        await testDbPool.end();
+        console.log("✓ Database connection closed");
+    }
 });
 
 // helper function to truncate tables

@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { eq } from "drizzle-orm";
 import { db } from "../config/db/db.js";
+import { env } from "../config/env.config.js";
 import ErrorHandler from "../helpers/error.helpers.js";
 import { TOKEN_TYPE } from "../constants/enum/index.js";
 import { userSchema } from "../config/db/schema/user.schema.js";
@@ -148,7 +149,7 @@ export const refreshAccessToken = asyncHandler(
 
         jwt.verify(
             refreshToken,
-            process.env.REFRESH_TOKEN_SECRET!,
+            env.REFRESH_TOKEN_SECRET!,
             async (err: any, decoded: any) => {
                 // handle error
                 if (err) {

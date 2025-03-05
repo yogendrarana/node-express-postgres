@@ -1,7 +1,8 @@
 import { Resend } from "resend";
+import { env } from "./env.config.js";
 
 // Initialize Resend with API key
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(env.RESEND_API_KEY);
 
 // Email payload interface
 interface EmailPayload {
@@ -56,3 +57,9 @@ export async function sendEmail({ from, to, subject, body, replyTo, cc, bcc }: E
         };
     }
 }
+
+export const resendConfig = {
+    apiKey: env.RESEND_API_KEY,
+    // In test/dev, maybe log emails instead of sending them
+    dryRun: env.NODE_ENV !== 'production'
+};

@@ -2,15 +2,16 @@ import jwt from "jsonwebtoken";
 import { db } from "../config/db/db.js";
 import { tokenSchema, type InsertableToken } from "../config/db/schema.js";
 import { eq } from "drizzle-orm";
+import { env } from "../config/env.config.js";
 
 // create access token
 export const createAccessToken = function (userId: string, userRole: string) {
-    return jwt.sign({ userId, userRole }, process.env.ACCESS_TOKEN_SECRET!, { expiresIn: "15m" });
+    return jwt.sign({ userId, userRole }, env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
 };
 
 // create refresh token of random uuid
 export const createRefreshToken = function (userId: string, userRole: string) {
-    return jwt.sign({ userId, userRole }, process.env.REFRESH_TOKEN_SECRET!, { expiresIn: "30d" });
+    return jwt.sign({ userId, userRole }, env.REFRESH_TOKEN_SECRET, { expiresIn: "30d" });
 };
 
 // insert token

@@ -1,9 +1,10 @@
+import { env } from "./env.config.js";
 import * as Sentry from "@sentry/node";
 import { nodeProfilingIntegration } from "@sentry/profiling-node";
 
 export const configureSentry = () => {   
     Sentry.init({
-            dsn: process.env.SENTRY_DSN,
+            dsn: env.SENTRY_DSN,
         integrations: [
             nodeProfilingIntegration(),
         ],

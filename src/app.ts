@@ -1,6 +1,7 @@
 import path from "path";
 import routers from "./routers.js";
 import cookieParser from "cookie-parser";
+import wsServer from "./config/socket.js";
 import express, { type Request, type Response } from "express";
 
 // middlewares
@@ -33,6 +34,20 @@ export const createExpressApp = () => {
         res.render("home", { title: "Node Backend" });
     });
     app.use("/api/v1", Object.values(routers));
+    app.get('/api/ws/stats', (req, res) => {
+        res.json({
+            connections: wsServer.getClients(),
+            status: 'healthy'
+        });
+    });
+
+    app.post('/api/ws/broadcast', (req, res) => {
+        wsServer.broadcast({
+            type: 'announcement',
+            message: req.body.message
+        });
+        res.json({ success: true });
+    });
 
     // error middleware
     app.use(ErrorMiddleware);

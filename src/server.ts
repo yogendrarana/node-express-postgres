@@ -1,12 +1,9 @@
-import dotenv from "dotenv";
 import http from "node:http";
-import path from "node:path";
+import wsServer from "./config/socket.js";
 import { createExpressApp } from "./app.js";
-import { startCronJobs } from "./config/cronjob.js";
-import createWebSocketServer from "./config/socket.js";
-
-// .env
-dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+import { env } from "./config/env.config.js";
+import logger from "./config/logger/logger.js";
+import { startCronJobs } from "./cron/cronjob.js";
 
 // config
 startCronJobs();
@@ -15,19 +12,29 @@ startCronJobs();
 const app = createExpressApp();
 
 // create server
-const PORT = process.env.PORT || 8000;
+const PORT = env.PORT;
 const server = http.createServer(app);
 
-// Initialize WebSocket server and attach it to HTTP server
-const wsServer = createWebSocketServer({
-    path: "/ws",
-    pingInterval: 30000,
-    maxPayload: 50 * 1024
-});
-
+// attach websocket server to the HTTP server
 wsServer.initialize(server);
 
-// Start server
+// handle graceful shutdown
+const shutdown = async () => {
+    logger.info('Shutting down server...');
+    
+    await wsServer.close();    
+    server.close(() => {
+        logger.info('HTTP server closed');
+        process.exit(0);
+    });
+};
+
+// handle process termination
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
+
+// start http server
 server.listen(PORT, () => {
-    console.log(`HTTP Server running on port ${PORT}`);
+    logger.info(`HTTP Server running on port ${PORT}`);
+    logger.info(`WebSocket server available at ws://localhost:${PORT}/ws`);
 });

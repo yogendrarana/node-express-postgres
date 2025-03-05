@@ -7,6 +7,7 @@ import { userSchema } from "../config/db/schema/user.schema.js";
 import type { NextFunction, Request, Response } from "express";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { getUserByEmail, getUserById, insertUser } from "../helpers/user.helpers.js";
+import { env } from "../config/env.config.js";
 
 // Define a custom interface that extends the Express Request interface
 interface AuthenticatedRequest extends Request {
@@ -24,7 +25,7 @@ export const verifyAccessToken = (req: AuthenticatedRequest, res: Response, next
         return next(new ErrorHandler(401, "Access token is not available!"));
     }
 
-    jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET!, async (err, decoded) => {
+    jwt.verify(accessToken, env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
         // handle error
         if (err) {
             if (err.name === "TokenExpiredError") {
@@ -55,9 +56,9 @@ export const initializeGoogleOAuth2 = () => {
     passport.use(
         new GoogleStrategy(
             {
-                clientID: process.env.GOOGLE_CLIENT_ID!,
-                clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-                callbackURL: `${process.env.SERVER_URL!}/auth/google/callback`,
+                clientID: env.GOOGLE_CLIENT_ID,
+                clientSecret: env.GOOGLE_CLIENT_SECRET,
+                callbackURL: `${env.SERVER_URL}/auth/google/callback`,
                 passReqToCallback: true,
                 scope: ["profile", "email"]
             },
