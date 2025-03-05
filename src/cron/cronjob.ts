@@ -1,6 +1,6 @@
 import * as cron from 'node-cron';
 import moment from 'moment-timezone';
-import logger from '../config/logger/logger.js';
+import logger from '../config/logger.js';
 
 const nepaliTimeToSystemTime = (hr: number, min: number): { hour: number; minute: number } => {
   const iso = moment.tz('Asia/Kathmandu').hour(hr).minute(min).second(0).toISOString();

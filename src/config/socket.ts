@@ -1,6 +1,6 @@
 import { Server } from "http";
 import { IncomingMessage } from "http";
-import logger from './logger/logger.js';
+import logger from './logger.js';
 import { WebSocket, WebSocketServer } from "ws";
 
 type MessageHandler = (ws: WebSocket, message: string) => void;
