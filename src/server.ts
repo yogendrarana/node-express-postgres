@@ -1,8 +1,8 @@
 import app from "./app.js";
 import http from "node:http";
+import logger from "./config/logger.js";
 import wsServer from "./config/socket.js";
 import { env } from "./config/env.config.js";
-import logger from "./config/logger/logger.js";
 import { startCronJobs } from "./cron/cronjob.js";
 
 // config
